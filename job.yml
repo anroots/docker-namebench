@@ -1,0 +1,26 @@
+---
+# Openshift 3 / Kubernetes Job for running
+# namebench as a job
+#
+# oc create -f job.yml
+apiVersion: extensions/v1beta1
+kind: Job
+metadata:
+  name: namebench
+spec:
+  selector:
+    matchLabels:
+      app: namebench
+  parallelism: 1
+  completions: 1
+  template:
+    metadata:
+      name: namebench
+      labels:
+        app: namebench
+    spec:
+      containers:
+        - name: namebench
+          image: anroots/namebench
+          command: ["namebench", "-S"]
+      restartPolicy: Never
